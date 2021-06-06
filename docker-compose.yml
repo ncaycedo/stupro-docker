@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+    gazebo:
+        build:
+            context: .
+        image: gazebo:local
+        environment:
+            - DISPLAY
+            - QT_X11_NO_MITSHM=1
+        volumes:
+            - ./project:/project
+            - /tmp/.gazebo:/tmp/.gazebo
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+        devices:
+            - /dev/nvidia0
+            - /dev/nvidiactl
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          capabilities: [gpu]
